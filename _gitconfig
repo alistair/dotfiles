@@ -1,0 +1,22 @@
+; vim: ft:gitconfig
+
+[user]
+	email = alistair.bush@gmail.com
+	name = Alistair Bush
+[push]
+	default = simple
+[core]
+	editor = vim
+	excludesfile = /home/alistair/.gitignore_global
+
+[help]
+	autocorrect = -1
+
+[color]
+	pager = true
+	status = auto
+	branch = auto
+	diff = auto
+	interactive = auto
+
+
