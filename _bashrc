@@ -63,7 +63,8 @@ shopt -s cdspell
 set -o vi
 set -o notify
 
-PATH="${PATH}:/home/alistair/.gem/ruby/1.9.1/bin/:/home/alistair/./node_modules/.bin/:/home/alistair/Projects/OpenIDE.binaries"
+EDITOR="/usr/bin/vim"
+
+PATH="${PATH}:/home/alistair/.gem/ruby/2.0.0/bin/:/home/alistair/./node_modules/.bin/:/home/alistair/Projects/OpenIDE.binaries"
 PATH="${PATH}:${HOME}/bin/scala-2.11.2/bin"
 PATH="${PATH}:${HOME}/bin"
-source /etc/profile.d/bash-completion.sh

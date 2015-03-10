@@ -1,9 +1,9 @@
-"NeoBundle Scripts-----------------------------
+
 if has('vim_starting')
   set nocompatible               " Be iMproved
 
   " Required:
-  set runtimepath+=/home/alistair/.vim/bundle/neobundle.vim/
+  set runtimepath+=~/.vim/bundle/neobundle.vim/
 endif
 
 " Required:
@@ -18,34 +18,38 @@ NeoBundle 'Shougo/neosnippet.vim'
 NeoBundle 'Shougo/neosnippet-snippets'
 NeoBundle 'tpope/vim-fugitive'
 NeoBundle 'kien/ctrlp.vim'
-NeoBundle 'flazz/vim-colorschemes'
+" NeoBundle 'flazz/vim-colorschemes'
+NeoBundle 'scrooloose/nerdtree'
+NeoBundle 'vim-scripts/bufkill.vim'
 
 " You can specify revision/branch/tag.
 NeoBundle 'Shougo/vimshell', { 'rev' : '3787e5' }
+NeoBundle 'Valloric/YouCompleteMe', {'build': {'unix': './install.sh --omnisharp-completer --clang-completer --system-libclang --system-boost'}}
 
 " My Bundles
-NeoBundle 'daylerees/colour-schemes', { "rtp" : "vim/" }
+" NeoBundle 'daylerees/colour-schemes', { "rtp" : "vim/" } " Removed as not using currently
+NeoBundle 'altercation/vim-colors-solarized'
 NeoBundle 'airblade/vim-gitgutter'
 NeoBundle 'bling/vim-airline'
 NeoBundle 'editorconfig/editorconfig-vim'                 " EditorConfig support for cross-editor settings
 " NeoBundle 'edsono/vim-matchit'                          " makes % match multiple characters.... tags related it seems
 NeoBundle 'gregsexton/gitv'                               " gitk for vim
 " NeoBundle 'jasoncodes/ctrlp-modified.vim'               " open modified files on branch / workspace
-" NeoBundle 'kien/ctrlp.vim'
 " NeoBundle 'kaneshin/ctrlp-git-log'                      " extends above
 
 " Language Bundles
 NeoBundle 'derekwyatt/vim-scala'
 " NeoBundle 'elzr/vim-json'                               "https://github.com/elzr/vim-json
-NeoBundle 'gre/play2vim'                                " Syntax hightlighting for play framework
+" NeoBundle 'gre/play2vim'                                " Syntax hightlighting for play framework
 
 
 " Html Bundles
 NeoBundle 'ap/vim-css-color'
+NeoBundle 'mattn/emmet-vim'
 "NeoBundle 'digitaltoad/vim-jade'   " Jade template plugin
 "NeoBundle 'docunext/closetag.vim'  " http://www.vim.org/scripts/script.php?script_id=13
-" NeoBundle 'groenewege/vim-less'   " Less syntax
-" NeoBundle 'hail2u/vim-css3-syntax'
+NeoBundle 'groenewege/vim-less'   " Less syntax
+NeoBundle 'hail2u/vim-css3-syntax'
 " NeoBundle 'kchmck/vim-coffee-script'
 " NeoBundle 'lukaszkorecki/CoffeeTags'
 
@@ -79,11 +83,12 @@ NeoBundleCheck
 " ==================
 set mouse=a		            " Always enable mouse
 set clipboard+=unnamed	  " Makes using clipboard easier
-set number		            " Show line numbers
-set numberwidth=1	        " Try to use only 1 col when possible
-set nowrap		            " Line wrapping off
-" set cursorline		      " Highlight line cursor is on
-" set cursorcolumn      	" Highlight column cursor is on
+set relativenumber
+"set number                " Show line numbers
+set numberwidth=1         " Try to use only 1 col when possible
+set nowrap                " Line wrapping off
+" set cursorline          " Highlight line cursor is on
+" set cursorcolumn        " Highlight column cursor is on
 set autoread              " Reloads file if changed on disk
 set completeopt-=preview  " Turn scratch window off
 set hidden                " Switch between buffers without saving
@@ -101,7 +106,9 @@ set wildignore+=*/tmp/*.*.so,*.swp,*.zip
 let g:ctrlp_custom_ignore = {
       \ 'dir': '\v[\/]\.(git|hg|svn|target)$',
       \ 'file': '\v\.(exe|so|dll|class)$',
-      \ } 
+      \ }
+
+let g:ctrlp_by_filename = 1
 
 " Turn off F1 help
 map <F1> <Nop>
@@ -116,18 +123,7 @@ set showmatch             " Show matched paren when balanced
 set matchtime=2           " for .2 seconds
 set linebreak             " Don't wrap text in the middle of a word
 
-set t_Co=256
-if (&t_Co == 256 || &t_Co == 88) && !has('gui_running') &&
-  \ filereadable(expand("$HOME/.vim/plugin/guicolorscheme.vim"))
-  " Use the guicolorscheme plugin to makes 256-color or 88-color
-  " terminal use GUI colors rather than cterm colors.
-  runtime! plugin/guicolorscheme.vim
-  GuiColorScheme darkside
-else
-  " For 8-color 16-color terminals or for gvim, just use the
-  " regular :colorscheme command.
-  colorscheme darkside
-endif
+colorscheme solarized
 
 "
 " Search / Replace
