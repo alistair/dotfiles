@@ -1,4 +1,3 @@
-
 if has('vim_starting')
   set nocompatible               " Be iMproved
 
@@ -14,8 +13,8 @@ call neobundle#begin(expand('/home/alistair/.vim/bundle'))
 NeoBundleFetch 'Shougo/neobundle.vim'
 
 " Default NeoBundles here:
-NeoBundle 'Shougo/neosnippet.vim'
-NeoBundle 'Shougo/neosnippet-snippets'
+" NeoBundle 'Shougo/neosnippet.vim'
+" NeoBundle 'Shougo/neosnippet-snippets'
 NeoBundle 'tpope/vim-fugitive'
 NeoBundle 'kien/ctrlp.vim'
 " NeoBundle 'flazz/vim-colorschemes'
@@ -25,6 +24,10 @@ NeoBundle 'vim-scripts/bufkill.vim'
 " You can specify revision/branch/tag.
 NeoBundle 'Shougo/vimshell', { 'rev' : '3787e5' }
 NeoBundle 'Valloric/YouCompleteMe', {'build': {'unix': './install.sh --omnisharp-completer --clang-completer --system-libclang --system-boost'}}
+" NeoBundle 'OmniSharp/omnisharp-vim', {'build': {'unix': 'pushd server; xbuild; popd;'}}
+
+NeoBundle 'tpope/vim-dispatch'
+NeoBundle 'scrooloose/syntastic'
 
 " My Bundles
 " NeoBundle 'daylerees/colour-schemes', { "rtp" : "vim/" } " Removed as not using currently
@@ -39,6 +42,7 @@ NeoBundle 'gregsexton/gitv'                               " gitk for vim
 
 " Language Bundles
 NeoBundle 'derekwyatt/vim-scala'
+NeoBundle 'OrangeT/vim-csharp'
 " NeoBundle 'elzr/vim-json'                               "https://github.com/elzr/vim-json
 " NeoBundle 'gre/play2vim'                                " Syntax hightlighting for play framework
 
@@ -50,6 +54,8 @@ NeoBundle 'mattn/emmet-vim'
 "NeoBundle 'docunext/closetag.vim'  " http://www.vim.org/scripts/script.php?script_id=13
 NeoBundle 'groenewege/vim-less'   " Less syntax
 NeoBundle 'hail2u/vim-css3-syntax'
+NeoBundle 'jelera/vim-javascript-syntax'
+NeoBundle 'pangloss/vim-javascript'
 " NeoBundle 'kchmck/vim-coffee-script'
 " NeoBundle 'lukaszkorecki/CoffeeTags'
 
@@ -61,6 +67,11 @@ NeoBundle 'hail2u/vim-css3-syntax'
 " General Bundles
 " NeoBundle 'duff/vim-bufonly'      " Close multiple buffers
 " NeoBundle 'godlygeek/tabular'     " Configurable, flexible, intuitive text aligning
+NeoBundle 'MarcWeber/vim-addon-mw-utils'
+" NeoBundle 'tomtom/tlib_vim'
+
+" NeoBundle 'SirVer/ultisnips'
+" NeoBundle 'garbas/vim-snipmate'
 " NeoBundle 'honza/vim-snippets'    " Snippets
 " NeoBundle 'jiangmiao/auto-pairs'  " bracket pairs
 " NeoBundle 'kshenoy/vim-signature'
