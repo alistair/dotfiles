@@ -43,7 +43,7 @@ PS1="$LIGHTBLUE[\$(date +%H:%M)] \u@\h $LIGHTRED\$(__git_ps1) $LIGHTYELLOW\w \n$
 PS2="$CONTINUE> "
 
 # Put your fun stuff here.
-eval `keychain --eval --agents ssh id_dsa`
+eval `keychain --eval --agents ssh id_dsa id_rsa`
 
 #
 # History
@@ -70,6 +70,7 @@ isGentoo="true"
 if [[ -n "$result" ]]; then
   isGentoo="false"
 fi
+
 
 PATH="${PATH}:/home/alistair/.gem/ruby/2.0.0/bin/:/home/alistair/./node_modules/.bin/:/home/alistair/Projects/OpenIDE.binaries"
 
