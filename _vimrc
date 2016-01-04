@@ -5,44 +5,22 @@ if has('vim_starting')
   set runtimepath+=~/.vim/bundle/neobundle.vim/
 endif
 
+let g:neobundle#types#git#default_protocol='ssh'
 " Required:
-call neobundle#begin(expand('/home/alistair/.vim/bundle'))
+call neobundle#begin(expand('~/.vim/bundle'))
 
 " Let NeoBundle manage NeoBundle
 " Required:
 NeoBundleFetch 'Shougo/neobundle.vim'
 
-" Default NeoBundles here:
-" NeoBundle 'Shougo/neosnippet.vim'
-" NeoBundle 'Shougo/neosnippet-snippets'
-NeoBundle 'tpope/vim-fugitive'
-NeoBundle 'kien/ctrlp.vim'
-" NeoBundle 'flazz/vim-colorschemes'
-NeoBundle 'scrooloose/nerdtree'
-NeoBundle 'vim-scripts/bufkill.vim'
 
-" You can specify revision/branch/tag.
-NeoBundle 'Shougo/vimshell', { 'rev' : '3787e5' }
-NeoBundle 'Valloric/YouCompleteMe', {'build': {'unix': './install.sh --omnisharp-completer --clang-completer --system-libclang --system-boost'}}
-" NeoBundle 'OmniSharp/omnisharp-vim', {'build': {'unix': 'pushd server; xbuild; popd;'}}
-
-NeoBundle 'tpope/vim-dispatch'
-NeoBundle 'scrooloose/syntastic'
 
 " My Bundles
 " NeoBundle 'daylerees/colour-schemes', { "rtp" : "vim/" } " Removed as not using currently
 NeoBundle 'altercation/vim-colors-solarized'
-NeoBundle 'airblade/vim-gitgutter'
-NeoBundle 'bling/vim-airline'
-NeoBundle 'editorconfig/editorconfig-vim'                 " EditorConfig support for cross-editor settings
-" NeoBundle 'edsono/vim-matchit'                          " makes % match multiple characters.... tags related it seems
-NeoBundle 'gregsexton/gitv'                               " gitk for vim
-" NeoBundle 'jasoncodes/ctrlp-modified.vim'               " open modified files on branch / workspace
-" NeoBundle 'kaneshin/ctrlp-git-log'                      " extends above
 
 " Language Bundles
 NeoBundle 'derekwyatt/vim-scala'
-NeoBundle 'OrangeT/vim-csharp'
 " NeoBundle 'elzr/vim-json'                               "https://github.com/elzr/vim-json
 " NeoBundle 'gre/play2vim'                                " Syntax hightlighting for play framework
 
@@ -50,18 +28,12 @@ NeoBundle 'OrangeT/vim-csharp'
 " Html Bundles
 NeoBundle 'ap/vim-css-color'
 NeoBundle 'mattn/emmet-vim'
-"NeoBundle 'digitaltoad/vim-jade'   " Jade template plugin
 "NeoBundle 'docunext/closetag.vim'  " http://www.vim.org/scripts/script.php?script_id=13
 NeoBundle 'groenewege/vim-less'   " Less syntax
 NeoBundle 'hail2u/vim-css3-syntax'
 NeoBundle 'jelera/vim-javascript-syntax'
 NeoBundle 'pangloss/vim-javascript'
-" NeoBundle 'kchmck/vim-coffee-script'
-" NeoBundle 'lukaszkorecki/CoffeeTags'
 
-" Tmux plugins
-" NeoBundle 'christoomey/vim-tmux-navigator'
-" NeoBundle 'edkolev/tmuxline.vim'
 "
 "
 " General Bundles
@@ -76,10 +48,16 @@ NeoBundle 'MarcWeber/vim-addon-mw-utils'
 " NeoBundle 'jiangmiao/auto-pairs'  " bracket pairs
 " NeoBundle 'kshenoy/vim-signature'
 " NeoBundle 'lokaltog/vim-easymotion'
-NeoBundle 'majutsushi/tagbar'
+
 
 " Required:
 call neobundle#end()
+
+source ~/dotfiles/vim.bundles.d/000_toplaywith.vim
+source ~/dotfiles/vim.bundles.d/001_general.vim
+source ~/dotfiles/vim.bundles.d/002_tmux.vim
+source ~/dotfiles/vim.bundles.d/003_haskell.vim
+source ~/dotfiles/vim.bundles.d/010_dotnet.vim
 
 " Required:
 filetype plugin indent on
@@ -134,7 +112,6 @@ set showmatch             " Show matched paren when balanced
 set matchtime=2           " for .2 seconds
 set linebreak             " Don't wrap text in the middle of a word
 
-colorscheme solarized
 
 "
 " Search / Replace
@@ -204,6 +181,13 @@ set wildignore+=*/.git/*
 " Teach vim where to find the ctags file
 set tags=./.git/tags,tags,./.git/coffeetags,coffeetags;$HOME
 
+if &term =~ '256color'
+  " disable Background Color Erase (BCE) so that color schemes
+  " render properly when inside 256-color tmux and GNU screen.
+  " see also http://snk.tuxfamily.org/log/vim-256color-bce.html
+  set t_ut=
+endif
+
 "
 " Per-FileType Scripts
 "
@@ -211,3 +195,8 @@ syntax enable                 " Enable per-filetype sytax highlighting
 filetype on               " File type detection on
 filetype indent on        " Use filetype-specific indenting when available
 filetype plugin on        " Load filetype plugins
+
+set background=dark
+colorscheme solarized
+
+let g:OmniSharp_server_type = 'roslyn'

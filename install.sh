@@ -1,12 +1,31 @@
 #!/bin/bash
 
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
 function link_file() {
-  local source="${PWD}/${1}"
+  local source="${DIR}/${1}"
   local target="${HOME}/${1/_/.}"
 
   rm -f "${target}"
   ln -sfv "${source}" "${target}"
 }
+
+ZSH_FILE="${HOME}/.zshrc"
+
+if [[ ! -e "${HOME}/.oh-my-zsh" ]]; then
+  if [[ -e "${ZSH_FILE}" ]]; then
+    if [[ "$(readlink \"${ZSH_FILE}\")" == "${DIR}/_zshrc" ]]; then
+      #remove and relink later so that the install doesn't change the file
+      rm "${HOME}/.zshrc"
+    fi
+  fi
+
+  export MYHOME=${HOME}
+
+  ZSH="" sh -c "$(HOME="${MYHOME}"; ZSH=""; curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+
+  rm "${HOME}/.zshrc"
+fi
 
 for i in _*
 do
