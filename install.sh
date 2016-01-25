@@ -27,6 +27,14 @@ if [[ ! -e "${HOME}/.oh-my-zsh" ]]; then
   rm "${HOME}/.zshrc"
 fi
 
+if [[ -n "$(grep ubuntu /etc/os-release)" ]]; then
+  git clone https://github.com/rbenv/rbenv.git "${HOME}/.rbenv"
+  git clone https://github.com/rbenv/ruby-build.git "${HOME}/.rbenv/plugins/ruby-build"
+  pushd "${HOME}/.rbenv" &> /dev/null
+    src/configure && make -C src
+  popd &> /dev/null
+fi
+
 for i in _*
 do
   link_file "${i}"

@@ -30,9 +30,6 @@ NeoBundle 'ap/vim-css-color'
 NeoBundle 'mattn/emmet-vim'
 "NeoBundle 'docunext/closetag.vim'  " http://www.vim.org/scripts/script.php?script_id=13
 NeoBundle 'groenewege/vim-less'   " Less syntax
-NeoBundle 'hail2u/vim-css3-syntax'
-NeoBundle 'jelera/vim-javascript-syntax'
-NeoBundle 'pangloss/vim-javascript'
 
 "
 "
@@ -57,6 +54,7 @@ source ~/dotfiles/vim.bundles.d/000_toplaywith.vim
 source ~/dotfiles/vim.bundles.d/001_general.vim
 source ~/dotfiles/vim.bundles.d/002_tmux.vim
 source ~/dotfiles/vim.bundles.d/003_haskell.vim
+source ~/dotfiles/vim.bundles.d/004_javascript.vim
 source ~/dotfiles/vim.bundles.d/010_dotnet.vim
 
 " Required:
