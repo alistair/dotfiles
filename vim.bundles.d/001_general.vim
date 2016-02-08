@@ -11,7 +11,7 @@ NeoBundle 'tpope/vim-fugitive', { 'augroup' : 'fugitive' }
 NeoBundle 'int3/vim-extradite'
 
 
-NeoBundle 'kien/ctrlp.vim'
+NeoBundle 'ctrlpvim/ctrlp.vim'
 NeoBundleLazy 'scrooloose/nerdtree', { 'augroup' : 'NERDTree' }
 NeoBundleSource 'nerdtree'
 NeoBundle 'airblade/vim-gitgutter'
