@@ -31,7 +31,7 @@ if [[ ! -e "${HOME}/.nvm" ]]; then
   git clone https://github.com/creationix/nvm.git ~/.nvm && cd ~/.nvm && git checkout `git describe --abbrev=0 --tags`
 fi
 
-if [[ -n "$(grep ubuntu /etc/os-release)" ]]; then
+if [[ -n "$(grep ubuntu /etc/os-release)" && ! -e "${HOME}/.rbenv" ]]; then
   git clone https://github.com/rbenv/rbenv.git "${HOME}/.rbenv"
   git clone https://github.com/rbenv/ruby-build.git "${HOME}/.rbenv/plugins/ruby-build"
   pushd "${HOME}/.rbenv" &> /dev/null
