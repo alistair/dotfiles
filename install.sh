@@ -27,6 +27,10 @@ if [[ ! -e "${HOME}/.oh-my-zsh" ]]; then
   rm "${HOME}/.zshrc"
 fi
 
+if [[ ! -e "${HOME}/.nvm" ]]; then
+  git clone https://github.com/creationix/nvm.git ~/.nvm && cd ~/.nvm && git checkout `git describe --abbrev=0 --tags`
+fi
+
 if [[ -n "$(grep ubuntu /etc/os-release)" ]]; then
   git clone https://github.com/rbenv/rbenv.git "${HOME}/.rbenv"
   git clone https://github.com/rbenv/ruby-build.git "${HOME}/.rbenv/plugins/ruby-build"

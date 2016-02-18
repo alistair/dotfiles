@@ -82,3 +82,6 @@ if [[ "${isGentoo}" -eq "true" ]]; then
 fi
 
 [ -s "/home/alistair/.dnx/dnvm/dnvm.sh" ] && . "/home/alistair/.dnx/dnvm/dnvm.sh" # Load dnvm
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh" # This loads nvm
