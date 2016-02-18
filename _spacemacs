@@ -40,6 +40,7 @@ values."
      vimscript
      ruby
      yaml
+     sql
      react
      )
    ;; List of additional packages that will be installed without being
@@ -244,6 +245,8 @@ values."
 It is called immediately after `dotspacemacs/init'.  You are free to put almost
 any user code here.  The exception is org related code, which should be placed
 in `dotspacemacs/user-config'."
+  
+  (add-to-list 'auto-mode-alist '("\\.hql\\'" . sql-mode))
   )
 
 (defun dotspacemacs/user-config ()

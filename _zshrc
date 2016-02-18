@@ -96,3 +96,6 @@ source "/home/alistair/.dnx/dnvm/dnvm.sh"
 
 autoload -U compinit
 compinit
+
+export NVM_DIR="/home/alistair/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
