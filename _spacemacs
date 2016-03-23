@@ -29,9 +29,9 @@ values."
      git
      ;; markdown
      org
-     ;; (shell :variables
-     ;;        shell-default-height 30
-     ;;        shell-default-position 'bottom)
+      (shell :variables
+             shell-default-height 30
+             shell-default-position 'bottom)
      spell-checking
      syntax-checking
      haskell
@@ -42,12 +42,18 @@ values."
      yaml
      sql
      react
+     html
+     shell
      )
    ;; List of additional packages that will be installed without being
    ;; wrapped in a layer. If you need some configuration for these
    ;; packages, then consider creating a layer. You can also put the
    ;; configuration in `dotspacemacs/user-config'.
-   dotspacemacs-additional-packages '()
+   dotspacemacs-additional-packages '(
+                                      (editorconfig :repo "editorconfig/editorconfig-emacs"
+                                                    :fetcher github
+                                                    :files ("editorconfig.el"))
+   )
    ;; A list of packages and/or extensions that will not be install and loaded.
    dotspacemacs-excluded-packages '()
    ;; If non-nil spacemacs will delete any orphan packages, i.e. packages that
@@ -245,23 +251,26 @@ values."
 It is called immediately after `dotspacemacs/init'.  You are free to put almost
 any user code here.  The exception is org related code, which should be placed
 in `dotspacemacs/user-config'."
-  
+
   (add-to-list 'auto-mode-alist '("\\.hql\\'" . sql-mode))
-  )
+
+  (setq-default dotspacemacs-line-numbers 'relative)
+
+  (setq-default dotspacemacs-configuration-layers
+    '((haskell :variables haskell-enable-hindent-style "chris-done")))
+)
 
 (defun dotspacemacs/user-config ()
   "Configuration function for user code.
 This function is called at the very end of Spacemacs initialization after
 layers configuration. You are free to put any user code."
 
-  (setq-default dotspacemacs-line-numbers 'relative)
-
-  (setq-default dotspacemacs-configuration-layers
-                '((haskell :variables haskell-enable-hindent-style "chris-done")))
+  (editorconfig-mode 1)
 
   (setq-default
     ;; js2-mode
     js2-basic-offset 2
+    js-indent-level 2
     ;; web-mode
     css-indent-offset 2
     web-mode-markup-indent-offset 2
@@ -269,10 +278,18 @@ layers configuration. You are free to put any user code."
     web-mode-code-indent-offset 2
     web-mode-attr-indent-offset 2)
 
+  (setq flycheck-checkers '(javascript-eslint))
+
+  ;; use eslint with web-mode for jsx files
+  ;;(flycheck-add-mode 'javascript-eslint 'web-mode)
+
   (with-eval-after-load 'web-mode
     (add-to-list 'web-mode-indentation-params '("lineup-args" . nil))
     (add-to-list 'web-mode-indentation-params '("lineup-concats" . nil))
     (add-to-list 'web-mode-indentation-params '("lineup-calls" . nil)))
+
+  (setq emmet-expand-jsx-className? t)
+  (setq ruby-enable-enh-ruby-mode t)
 
   (when (configuration-layer/layer-usedp 'haskell)
     (add-hook 'haskell-interactive-mode-hook
