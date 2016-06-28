@@ -9,6 +9,9 @@
 	editor = vim
 	excludesfile = /home/alistair/.gitignore_global
 
+[commit]
+  template = ~/.gitmessage
+
 [help]
 	autocorrect = -1
 
@@ -18,5 +21,3 @@
 	branch = auto
 	diff = auto
 	interactive = auto
-
-
