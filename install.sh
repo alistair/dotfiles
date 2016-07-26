@@ -1,5 +1,9 @@
 #!/bin/bash
 
+##
+# vim emacs git git-gui tig gitk keychain zsh
+##
+
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 function link_file() {
