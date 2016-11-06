@@ -31,6 +31,12 @@ if [[ ! -e "${HOME}/.oh-my-zsh" ]]; then
   rm "${HOME}/.zshrc"
 fi
 
+if [[ ! -e "${HOME}/.emacs.d" ]]; then
+  git clone https://github.com/syl20bnr/spacemacs ~/.emacs.d
+  mkdir -p ~/.emacs.d/private
+  git clone https://github.com/cydparser/spacemacs-intero.git ~/.emacs.d/private/intero
+fi
+
 if [[ ! -e "${HOME}/.nvm" ]]; then
   git clone https://github.com/creationix/nvm.git ~/.nvm && cd ~/.nvm && git checkout `git describe --abbrev=0 --tags`
 fi
@@ -41,6 +47,12 @@ if [[ -n "$(grep ubuntu /etc/os-release)" && ! -e "${HOME}/.rbenv" ]]; then
   pushd "${HOME}/.rbenv" &> /dev/null
     src/configure && make -C src
   popd &> /dev/null
+
+  if [[ ! -e "${HOME}/.fonts" ]]; then
+    TMP_DIR="$(mktemp -d)"
+    curl -L -o "${TMP_DIR}/sourcecodepro.zip" https://github.com/adobe-fonts/source-code-pro/archive/2.030R-ro/1.050R-it.zip
+    unzip "${TMP_DIR}/sourcecodepro.zip"
+  fi
 fi
 
 for i in _*
