@@ -69,19 +69,18 @@ if [[ -n "$(grep ubuntu /etc/os-release)" ]]; then
    stable"
 
   sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF
-  echo "deb http://download.mono-project.com/repo/debian wheezy main" | sudo tee /etc/apt/sources.list.d/mono-xamarin.list
+  echo "deb http://download.mono-project.com/repo/ubuntu stable-$(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/mono-offical-stable.list
 
-  sudo sh -c 'echo "deb [arch=amd64] https://apt-mo.trafficmanager.net/repos/dotnet-release/ xenial main" > /etc/apt/sources.list.d/dotnetdev.list'
-  sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 417A0893
+  version="$(lsb_release -rs)"
+  tmp_file="$(tmpfile)"
+
+  curl https://packages.microsoft.com/config/ubuntu/${version}/packages-microsoft-prod.deb -o "${tmpfile}"
+  sudo dpgk -i "${tmpfile}"
 
   sudo add-apt-repository multiverse
 
-  sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys BBEBDCB318AD50EC6865090613B00F1FD2C19886
-
-  echo deb http://repository.spotify.com stable non-free | sudo tee /etc/apt/sources.list.d/spotify.list
-
   sudo apt-get update
-  sudo apt-get install -y docker-ce dotnet-dev-1.0.1 chromium-browser spotify-client steam
+  sudo apt-get install -y docker-ce dotnet-sdk-2.1 chromium-browser spotify-client steam mono-devel
 
   curl -sSL https://get.haskellstack.org/ | sh
 
