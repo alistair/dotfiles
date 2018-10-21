@@ -65,23 +65,7 @@ set -o notify
 
 EDITOR="/usr/bin/vim"
 
-result=$(grep gentoo /etc/os-release)
-isGentoo="true"
-if [[ -n "$result" ]]; then
-  isGentoo="false"
-fi
-
-
-PATH="${PATH}:/home/alistair/.gem/ruby/2.0.0/bin/:/home/alistair/./node_modules/.bin/:/home/alistair/Projects/OpenIDE.binaries"
-
-if [[ "${isGentoo}" -eq "true" ]]; then
-  PATH="${PATH}:${HOME}/bin"
-  export PATH="$HOME/.rbenv/bin:$PATH"
-  eval "$(rbenv init -)"
-  export PATH="$HOME/.rbenv/plugins/ruby-build/bin:$PATH"
-fi
-
-[ -s "/home/alistair/.dnx/dnvm/dnvm.sh" ] && . "/home/alistair/.dnx/dnvm/dnvm.sh" # Load dnvm
+PATH="${PATH}:/home/alistair/./node_modules/.bin/"
 
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh" # This loads nvm
