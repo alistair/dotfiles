@@ -1,88 +1,62 @@
 #!/bin/bash
 
-##
-# vim emacs git git-gui tig gitk keychain zsh
-##
+set -e
 
-DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+basedir=$(cd "$(dirname "$0")" && pwd)
+dirlist=$(find "$basedir" \
+               -maxdepth 1 \
+               -mindepth 1 \
+               -type d \
+               -not -name '.*' \
+              | sed 's/[^/]*\///g'
+       )
 
-function link_file() {
-  local source="${DIR}/${1}"
-  local target="${HOME}/${1/_/.}"
-
-  rm -f "${target}"
-  ln -sfv "${source}" "${target}"
-}
-
-ZSH_FILE="${HOME}/.zshrc"
-
-if [[ ! -e "${HOME}/.oh-my-zsh" ]]; then
-  if [[ -e "${ZSH_FILE}" ]]; then
-    if [[ "$(readlink \"${ZSH_FILE}\")" == "${DIR}/_zshrc" ]]; then
-      #remove and relink later so that the install doesn't change the file
-      rm "${HOME}/.zshrc"
+for d in $dirlist; do
+    echo installing "$d"
+    install_script=$basedir/$d/install.sh
+    if [ -x "$install_script" ]; then
+        $install_script || echo "ERROR: $install_script"
     fi
-  fi
+    stow \
+        --dir "$basedir" \
+        --target "$HOME" \
+        --ignore 'install.sh' \
+        --ignore '^[^\.].*' \
+        "$d"
+done
 
-  export MYHOME=${HOME}
+exit 0
 
-  sudo apt-get install zsh
+#  mkdir -p ~/.emacs.d/private
+#  git clone https://github.com/cydparser/spacemacs-intero.git ~/.emacs.d/private/intero
 
-  ZSH="" sh -c "$(HOME="${MYHOME}"; ZSH=""; curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
-
-  rm "${HOME}/.zshrc"
-fi
-
-if [[ ! -e "${HOME}/.emacs.d" ]]; then
-  git clone https://github.com/syl20bnr/spacemacs ~/.emacs.d
-  mkdir -p ~/.emacs.d/private
-  git clone https://github.com/cydparser/spacemacs-intero.git ~/.emacs.d/private/intero
-fi
-
-if [[ ! -e "${HOME}/.nvm" ]]; then
-  git clone https://github.com/creationix/nvm.git ~/.nvm && cd ~/.nvm && git checkout `git describe --abbrev=0 --tags`
-fi
-
-if [[ -n "$(grep ubuntu /etc/os-release)" ]]; then
-
-  sudo apt-get update
-  sudo apt-get install -y keychain tmux zsh vim-gtk-py2 emacs
-
-  if [[ ! -c "${HOME}/.rbenv" ]]; then
-    git clone https://github.com/rbenv/rbenv.git "${HOME}/.rbenv"
-    git clone https://github.com/rbenv/ruby-build.git "${HOME}/.rbenv/plugins/ruby-build"
-    pushd "${HOME}/.rbenv" &> /dev/null
-      src/configure && make -C src
-    popd &> /dev/null
-  fi
-
-  sudo apt-get install \
-    apt-transport-https \
-    ca-certificates \
-    curl \
-    software-properties-common
-  curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
-  sudo apt-key fingerprint 0EBFCD88
-  sudo add-apt-repository \
-   "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
+sudo apt-get install \
+     apt-transport-https \
+     ca-certificates \
+     curl \
+     software-properties-common
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+sudo apt-key fingerprint 0EBFCD88
+sudo add-apt-repository \
+     "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
    $(lsb_release -cs) \
    stable"
 
-  sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF
-  echo "deb http://download.mono-project.com/repo/ubuntu stable-$(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/mono-offical-stable.list
+sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF
+echo "deb http://download.mono-project.com/repo/ubuntu stable-$(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/mono-offical-stable.list
 
-  version="$(lsb_release -rs)"
-  tmp_file="$(tmpfile)"
+version="$(lsb_release -rs)"
+tmp_file="$(tmpfile)"
 
-  curl https://packages.microsoft.com/config/ubuntu/${version}/packages-microsoft-prod.deb -o "${tmpfile}"
-  sudo dpgk -i "${tmpfile}"
+curl https://packages.microsoft.com/config/ubuntu/${version}/packages-microsoft-prod.deb -o "${tmpfile}"
+sudo dpgk -i "${tmpfile}"
 
-  sudo add-apt-repository multiverse
+sudo add-apt-repository multiverse
 
-  sudo apt-get update
-  sudo apt-get install -y docker-ce dotnet-sdk-2.1 chromium-browser spotify-client steam mono-devel
+sudo apt-get update
+sudo apt-get install -y docker-ce dotnet-sdk-2.1 chromium-browser spotify-client steam mono-devel
 
-  curl -sSL https://get.haskellstack.org/ | sh
+curl -sSL https://get.haskellstack.org/ | sh
 
   if [[ ! -e "${HOME}/.fonts" ]]; then
     TMP_DIR="$(mktemp -d)"

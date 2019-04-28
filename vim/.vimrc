@@ -50,12 +50,12 @@ NeoBundle 'MarcWeber/vim-addon-mw-utils'
 " Required:
 call neobundle#end()
 
-source ~/dotfiles/vim.bundles.d/000_toplaywith.vim
-source ~/dotfiles/vim.bundles.d/001_general.vim
-source ~/dotfiles/vim.bundles.d/002_tmux.vim
-source ~/dotfiles/vim.bundles.d/003_haskell.vim
-source ~/dotfiles/vim.bundles.d/004_javascript.vim
-source ~/dotfiles/vim.bundles.d/010_dotnet.vim
+source ~/.vim/vim.bundles.d/000_toplaywith.vim
+source ~/.vim/vim.bundles.d/001_general.vim
+source ~/.vim/vim.bundles.d/002_tmux.vim
+source ~/.vim/vim.bundles.d/003_haskell.vim
+source ~/.vim/vim.bundles.d/004_javascript.vim
+source ~/.vim/vim.bundles.d/010_dotnet.vim
 
 " Required:
 filetype plugin indent on
