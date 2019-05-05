@@ -11,3 +11,6 @@
 [submodule "vim/.vim/bundle/neobundle.vim"]
 	path = vim/.vim/bundle/neobundle.vim
 	url = git@github.com:Shougo/neobundle.vim.git
+[submodule "aws/.aws/assume-role"]
+	path = aws/.aws/assume-role
+	url = git@github.com:coinbase/assume-role.git

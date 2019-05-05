@@ -1,0 +1,4 @@
+PATH="${PATH}:${HOME}/.local/bin"
+PATH="${PATH}:${HOME}/.rbenv/bin"
+
+export PATH

@@ -14,7 +14,8 @@ type apt-get &> /dev/null && sudo apt-get install -y \
     tmux \
     keychain \
     emacs \
-    tree
+    tree \
+    python-pip \
 
 type brew &> /dev/null && brew install \
     python3 \
@@ -31,3 +32,5 @@ type brew &> /dev/null && brew install \
     keychain \
     nvm \
     && brew tap homebrew/cask-fonts && brew cask install font-source-code-pro
+
+pip install awscli
