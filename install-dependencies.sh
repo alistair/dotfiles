@@ -31,6 +31,6 @@ type brew &> /dev/null && brew install \
     socat \
     keychain \
     nvm \
-    && brew tap homebrew/cask-fonts && brew cask install font-source-code-pro
+    && brew tap homebrew/cask-fonts && brew cask install font-source-code-pro emacs
 
-pip install awscli
+pip3 install awscli
