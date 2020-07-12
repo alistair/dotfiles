@@ -20,10 +20,16 @@ for d in $dirlist; do
     stow \
         --dir "$basedir" \
         --target "$HOME" \
+        --ignore 'private-packages' \
         --ignore 'install.sh' \
         --ignore '^[^\.].*' \
         "$d"
 done
+
+stow \
+  --dir "$basedir/spacemacs" \
+  --target "$HOME"/.emacs.d/private \
+  "private-packages"
 
 exit 0
 

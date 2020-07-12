@@ -16,6 +16,9 @@ type apt-get &> /dev/null && sudo apt-get install -y \
     emacs \
     tree \
     python-pip \
+    sqlite3 \
+    dot \
+    ripgrep
 
 type brew &> /dev/null && brew install \
     python3 \

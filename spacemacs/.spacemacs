@@ -32,12 +32,14 @@ This function should only modify configuration layer settings."
 
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
-   '(vimscript
+    '(python
+       vimscript
      ;; ----------------------------------------------------------------
      ;; Example of useful layers you may want to use right away.
      ;; Uncomment some layer names and press `SPC f e R' (Vim style) or
      ;; `M-m f e R' (Emacs style) to install them.
-     ;; ----------------------------------------------------------------
+       ;; ----------------------------------------------------------------
+     bibtex
      helm
      (auto-completion
       :variables
@@ -51,7 +53,8 @@ This function should only modify configuration layer settings."
      multiple-cursors
      treemacs
 
-     org
+     (org :variables org-enable-github-support t)
+     org-roam
      (shell :variables
             shell-default-height 30
             shell-default-position 'bottom)
@@ -66,7 +69,8 @@ This function should only modify configuration layer settings."
      react
      csharp
      ;;c-c++
-     rust
+      rust
+      zetteldeft
      )
 
    ;; List of additional packages that will be installed without being
@@ -494,6 +498,9 @@ before packages are loaded."
   (setq org-agenda-files '("~/org" "~/Dropbox/work-share"))
   (setq org-default-notes-file "~/Dropbox/work-share/refile.org")
 
+  (setq-default dotspacemacs-configuration-layers '(
+    (org :variables org-enable-github-support t)))
+
   (org-babel-do-load-languages
    'org-babel-load-languages
    '((shell . t)
@@ -501,6 +508,12 @@ before packages are loaded."
      ;; other languages..
       ))
   (setq org-refile-targets '((org-agenda-files . (:maxlevel . 6))))
+  (setq deft-extensions '("txt" "tex" "org"))
+  (setq deft-directory "~/Dropbox/work-share")
+  (setq deft-recursive t)
+  (setq org-ref-default-bibliography '("~/Dropbox/work-share/references.bib")
+    org-ref-pdf-directory "~/Dropbox/work-share/Books/"
+    org-ref-bibliography-notes "~/Dropbox/work-share/work.org")
 
   (setq org-capture-templates
     (quote (("t" "todo" entry (file "~/Dropbox/work-share/refile.org")
@@ -530,13 +543,13 @@ This function is called at the very end of Spacemacs initialization."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(package-selected-packages
-   (quote
-    (vimrc-mode helm-gtags ggtags dactyl-mode counsel-gtags solarized-theme org-category-capture alert log4e gntp magit-popup skewer-mode simple-httpd hierarchy json-snatcher json-reformat multiple-cursors js2-mode htmlize gitignore-mode fringe-helper git-gutter+ git-gutter flyspell-correct flycheck magit transient lv git-commit with-editor csharp-mode dash-functional tern pos-tip company markdown-mode rust-mode yasnippet auto-complete evil-mc yasnippet-snippets yaml-mode xterm-color ws-butler writeroom-mode winum which-key web-mode web-beautify volatile-highlights vmd-mode vi-tilde-fringe uuidgen use-package unfill treemacs-projectile treemacs-evil toml-mode toc-org tagedit symon string-inflection sql-indent spotify spaceline-all-the-icons smeargle slim-mode shell-pop seeing-is-believing scss-mode sass-mode rvm ruby-tools ruby-test-mode ruby-refactor ruby-hash-syntax rubocop rspec-mode robe rjsx-mode restart-emacs rbenv rake rainbow-delimiters racer pug-mode prettier-js popwin persp-mode password-generator paradox overseer orgit org-projectile org-present org-pomodoro org-mime org-download org-bullets org-brain open-junk-file omnisharp nameless mwim multi-term move-text mmm-mode minitest markdown-toc magit-svn magit-gitflow macrostep lorem-ipsum livid-mode linum-relative link-hint less-css-mode json-navigator json-mode js2-refactor js-doc intero indent-guide impatient-mode hungry-delete hlint-refactor hl-todo hindent highlight-parentheses highlight-numbers highlight-indentation helm-xref helm-themes helm-swoop helm-spotify-plus helm-rtags helm-purpose helm-projectile helm-org-rifle helm-mode-manager helm-make helm-hoogle helm-gitignore helm-git-grep helm-flx helm-descbinds helm-css-scss helm-company helm-c-yasnippet helm-ag haskell-snippets google-translate google-c-style golden-ratio gnuplot gitignore-templates gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe git-gutter-fringe+ gh-md fuzzy font-lock+ flyspell-correct-helm flycheck-rust flycheck-rtags flycheck-pos-tip flycheck-haskell flx-ido fill-column-indicator fancy-battery eyebrowse expand-region evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-org evil-numbers evil-nerd-commenter evil-matchit evil-magit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-goggles evil-exchange evil-escape evil-ediff evil-cleverparens evil-args evil-anzu eval-sexp-fu eshell-z eshell-prompt-extras esh-help emmet-mode elisp-slime-nav editorconfig dumb-jump dotenv-mode doom-modeline disaster diminish diff-hl define-word dap-mode counsel-projectile company-web company-tern company-statistics company-rtags company-quickhelp company-cabal company-c-headers column-enforce-mode cmm-mode clean-aindent-mode clang-format chruby centered-cursor-mode cargo bundler browse-at-remote auto-yasnippet auto-highlight-symbol auto-dictionary auto-compile aggressive-indent ace-link ace-jump-helm-line ac-ispell))))
+  '(package-selected-packages
+     (quote
+       (org-roam emacsql-sqlite3 emacsql yapfify stickyfunc-enhance pytest pyenv-mode py-isort pippel pipenv pyvenv pip-requirements lsp-python-ms live-py-mode importmagic epc ctable concurrent deferred helm-pydoc helm-cscope xcscope lsp-treemacs bui lsp-mode cython-mode counsel swiper ivy company-anaconda blacken anaconda-mode pythonic deft ts vimrc-mode helm-gtags ggtags dactyl-mode counsel-gtags solarized-theme org-category-capture alert log4e gntp magit-popup skewer-mode simple-httpd hierarchy json-snatcher json-reformat multiple-cursors js2-mode htmlize gitignore-mode fringe-helper git-gutter+ git-gutter flyspell-correct flycheck magit transient lv git-commit with-editor csharp-mode dash-functional tern pos-tip company markdown-mode rust-mode yasnippet auto-complete evil-mc yasnippet-snippets yaml-mode xterm-color ws-butler writeroom-mode winum which-key web-mode web-beautify volatile-highlights vmd-mode vi-tilde-fringe uuidgen use-package unfill treemacs-projectile treemacs-evil toml-mode toc-org tagedit symon string-inflection sql-indent spotify spaceline-all-the-icons smeargle slim-mode shell-pop seeing-is-believing scss-mode sass-mode rvm ruby-tools ruby-test-mode ruby-refactor ruby-hash-syntax rubocop rspec-mode robe rjsx-mode restart-emacs rbenv rake rainbow-delimiters racer pug-mode prettier-js popwin persp-mode password-generator paradox overseer orgit org-projectile org-present org-pomodoro org-mime org-download org-bullets org-brain open-junk-file omnisharp nameless mwim multi-term move-text mmm-mode minitest markdown-toc magit-svn magit-gitflow macrostep lorem-ipsum livid-mode linum-relative link-hint less-css-mode json-navigator json-mode js2-refactor js-doc intero indent-guide impatient-mode hungry-delete hlint-refactor hl-todo hindent highlight-parentheses highlight-numbers highlight-indentation helm-xref helm-themes helm-swoop helm-spotify-plus helm-rtags helm-purpose helm-projectile helm-org-rifle helm-mode-manager helm-make helm-hoogle helm-gitignore helm-git-grep helm-flx helm-descbinds helm-css-scss helm-company helm-c-yasnippet helm-ag haskell-snippets google-translate google-c-style golden-ratio gnuplot gitignore-templates gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe git-gutter-fringe+ gh-md fuzzy font-lock+ flyspell-correct-helm flycheck-rust flycheck-rtags flycheck-pos-tip flycheck-haskell flx-ido fill-column-indicator fancy-battery eyebrowse expand-region evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-org evil-numbers evil-nerd-commenter evil-matchit evil-magit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-goggles evil-exchange evil-escape evil-ediff evil-cleverparens evil-args evil-anzu eval-sexp-fu eshell-z eshell-prompt-extras esh-help emmet-mode elisp-slime-nav editorconfig dumb-jump dotenv-mode doom-modeline disaster diminish diff-hl define-word dap-mode counsel-projectile company-web company-tern company-statistics company-rtags company-quickhelp company-cabal company-c-headers column-enforce-mode cmm-mode clean-aindent-mode clang-format chruby centered-cursor-mode cargo bundler browse-at-remote auto-yasnippet auto-highlight-symbol auto-dictionary auto-compile aggressive-indent ace-link ace-jump-helm-line ac-ispell))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- )
+ '(default ((((class color) (min-colors 89)) (:foreground "#839496" :background "#002b36")))))
 )
