@@ -4,7 +4,7 @@ export ZSH="${HOME}/.oh-my-zsh"
 export NVM_DIR="${HOME}/.nvm"
 eval `keychain --eval --agents ssh id_rsa`
 if [[ -e "${HOME}/.ssh/xero_id_rsa" ]]; then
-eval `keychain --eval --agents xero_id_rsa``
+eval `keychain --eval --agents xero_id_rsa`
 fi
 
 if [[ -n $(command -v aws) ]]; then
