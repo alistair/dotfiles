@@ -34,6 +34,9 @@ type brew &> /dev/null && brew install \
     socat \
     keychain \
     nvm \
+    sqlite3 \
+    gprof2dot \
+    ripgrep \
     && brew tap homebrew/cask-fonts && brew cask install font-source-code-pro emacs
 
 pip3 install awscli
