@@ -32,7 +32,7 @@ This function should only modify configuration layer settings."
 
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
-    '(python
+    '(
        vimscript
      ;; ----------------------------------------------------------------
      ;; Example of useful layers you may want to use right away.
@@ -70,7 +70,6 @@ This function should only modify configuration layer settings."
      csharp
      ;;c-c++
       rust
-      zetteldeft
      )
 
    ;; List of additional packages that will be installed without being
@@ -522,15 +521,18 @@ before packages are loaded."
   (setq org-agenda-files '("~/org" "~/Dropbox/work-share"))
   (setq org-default-notes-file "~/Dropbox/work-share/refile.org")
 
-  (setq-default dotspacemacs-configuration-layers '(
-    (org :variables org-enable-github-support t)))
-
   (org-babel-do-load-languages
    'org-babel-load-languages
    '((shell . t)
      (haskell . t)
      ;; other languages..
       ))
+
+  (with-eval-after-load 'org
+    (require 'org-roam-protocol)
+    )
+;;    (add-to-list 'org-modules 'org-protocol))
+
   (setq org-refile-targets '((org-agenda-files . (:maxlevel . 6))))
   (setq deft-extensions '("txt" "tex" "org"))
   (setq deft-directory "~/Dropbox/work-share")
@@ -541,9 +543,14 @@ before packages are loaded."
 
   (setq org-capture-templates
     (quote (("t" "todo" entry (file "~/Dropbox/work-share/refile.org")
-              "* TODO %?\n%U\n%a\n" :clock-in t :clock-resume t)
-             ("j" "Journal" entry (file+datetree "~/Dropbox/work-share/journal.org")
-               "* %?\n%U\n" :clock-in t :clock-resume t))))
+              "* TODO %?\n%U\n%a\n")
+             ("j" "Journal" entry (file+olp+datetree "~/Dropbox/work-share/journal.org")
+               "* %?\n%U\n")
+             ("p" "Protocol" entry (file+headline "~/Dropbox/work-share/refile.org" "Protocol")
+               "* %^{Title}\nSource: %u, %c\n #+BEGIN_QUOTE\n%i\n#+END_QUOTE\n\n\n%?")
+             ("L" "Protocol Link" entry (file+headline "~/Dropbox/work-share/refile.org" "Protocol")
+               "* %? [[%:link][%:description]] \nCaptured On: %U")
+             )))
   ;; Remove empty LOGBOOK drawers on clock out
 ;;  (defun bh/remove-empty-drawer-on-clock-out ()
 ;;    (interactive)
