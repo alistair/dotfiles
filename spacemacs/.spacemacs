@@ -53,8 +53,18 @@ This function should only modify configuration layer settings."
      multiple-cursors
      treemacs
 
-     (org :variables org-enable-github-support t)
-     org-roam
+     (org :variables org-enable-github-support t
+       org-enable-roam-support t
+       org-enable-org-journal-support t
+       org-journal-dir "~/Dropbox/work-share/journal/"
+       org-journal-file-type "weekly"
+       org-journal-file-format "%Y-%m-%d"
+       org-journal-date-prefix "#+TITLE: "
+       org-journal-date-format "%A, %B %d %Y"
+       org-journal-time-prefix "* "
+       org-roam-directory "~/Dropbox/work-share/"
+       )
+     ;;org-roam
      (shell :variables
             shell-default-height 30
             shell-default-position 'bottom)
