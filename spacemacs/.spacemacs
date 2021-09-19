@@ -33,6 +33,8 @@ This function should only modify configuration layer settings."
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
     '(
+       haskell
+       agda
        vimscript
      ;; ----------------------------------------------------------------
      ;; Example of useful layers you may want to use right away.
@@ -61,7 +63,7 @@ This function should only modify configuration layer settings."
        org-journal-file-format "%Y-%m-%d"
        org-journal-date-format "%A, %B %d %Y"
        org-journal-time-prefix "* "
-       org-roam-directory "~/Dropbox/work-share/"
+       org-roam-directory "~/org-roam/"
        )
      ;;org-roam
      (shell :variables
@@ -508,6 +510,8 @@ It is mostly for variables that should be set before packages are loaded.
 If you are unsure, try setting them in `dotspacemacs/user-config' first."
 
   (add-to-list 'auto-mode-alist '("\\.hql\\'" . sql-mode))
+  (add-to-list 'auto-mode-alist '("\\.agda\\'" . agda2-mode))
+  (add-to-list 'auto-mode-alist '("\\.lagda.md\\'" . agda2-mode))
   )
 
 (defun dotspacemacs/user-load ()
@@ -524,11 +528,12 @@ configuration.
 Put your configuration code here, except for variables that should be set
 before packages are loaded."
 
+  (setq org-roam-v2-ack t)
   (setq create-lockfiles nil)
   (editorconfig-mode 1)
   (setq python-shell-interpreter "/usr/bin/python3")
-  (setq org-agenda-files '("~/org" "~/Dropbox/work-share"))
-  (setq org-default-notes-file "~/Dropbox/work-share/refile.org")
+;;  (setq org-agenda-files '("~/org" "~/Dropbox/work-share"))
+;;  (setq org-default-notes-file "~/Dropbox/work-share/refile.org")
 
   (org-babel-do-load-languages
    'org-babel-load-languages
@@ -542,7 +547,7 @@ before packages are loaded."
     )
 ;;    (add-to-list 'org-modules 'org-protocol))
 
-  (setq org-refile-targets '((org-agenda-files . (:maxlevel . 6))))
+;;  (setq org-refile-targets '((org-agenda-files . (:maxlevel . 6))))
   (setq deft-extensions '("txt" "tex" "org"))
   (setq deft-directory "~/Dropbox/work-share")
   (setq deft-recursive t)
@@ -556,7 +561,7 @@ before packages are loaded."
              ("j" "Journal" entry (file+olp+datetree "~/Dropbox/work-share/journal.org")
                "* %?\n%U\n")
              ("p" "Protocol" entry (file+headline "~/Dropbox/work-share/refile.org" "Protocol")
-               "* %^{Title}\nSource: %u, %c\n #+BEGIN_QUOTE\n%i\n#+END_QUOTE\n\n\n%?")
+               "* %^{Title}\nSource: %u, %c\n #+BEGIN_QUOTE\n%i\n#+END_QUOTE\n\n\n[[%:link][%:description]]\n%?")
              ("L" "Protocol Link" entry (file+headline "~/Dropbox/work-share/refile.org" "Protocol")
                "* %? [[%:link][%:description]] \nCaptured On: %U")
              )))
