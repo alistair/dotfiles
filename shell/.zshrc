@@ -19,3 +19,4 @@ plugins=(git rsync tmux tmuxinator z docker)
 
 autoload -U compinit
 compinit
+[ -f "/home/alistair/.ghcup/env" ] && source "/home/alistair/.ghcup/env" # ghcup-env
