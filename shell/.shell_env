@@ -2,7 +2,7 @@ export EDITOR="/usr/bin/vim"
 export TERM="xterm-256color"
 export ZSH="${HOME}/.oh-my-zsh"
 export NVM_DIR="${HOME}/.nvm"
-eval `keychain --eval --agents ssh id_rsa`
+eval `keychain --eval --agents ssh id_ed25519`
 if [[ -e "${HOME}/.ssh/xero_id_rsa" ]]; then
 eval `keychain --eval --agents xero_id_rsa`
 fi

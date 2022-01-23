@@ -26,10 +26,10 @@ for d in $dirlist; do
         "$d"
 done
 
-stow \
-  --dir "$basedir/spacemacs" \
-  --target "$HOME"/.emacs.d/private \
-  "private-packages"
+#stow \
+#  --dir "$basedir/spacemacs" \
+#  --target "$HOME"/.emacs.d/private \
+#  "private-packages"
 
 exit 0
 
