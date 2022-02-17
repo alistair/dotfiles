@@ -1,3 +1,6 @@
+type apt-get &> /dev/null && sudo add-apt-repository ppa:kelleyk/emacs && \
+    sudo apt-get update
+
 type apt-get &> /dev/null && sudo apt-get install -y \
     python3-dev \
     build-essential \
@@ -13,11 +16,11 @@ type apt-get &> /dev/null && sudo apt-get install -y \
     socat \
     tmux \
     keychain \
-    emacs \
+    emacs27 \
     tree \
-    python-pip \
+    python3-pip \
     sqlite3 \
-    dot \
+    graphviz \
     ripgrep
 
 type brew &> /dev/null && brew install \

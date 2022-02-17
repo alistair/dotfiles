@@ -14,3 +14,6 @@
 [submodule "aws/.aws/assume-role"]
 	path = aws/.aws/assume-role
 	url = git@github.com:coinbase/assume-role.git
+[submodule "node/.nvm"]
+	path = node/.nvm
+	url = git@github.com:nvm-sh/nvm.git
