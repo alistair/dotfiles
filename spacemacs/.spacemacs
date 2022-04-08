@@ -529,6 +529,9 @@ Put your configuration code here, except for variables that should be set
 before packages are loaded."
 
   (setq org-roam-v2-ack t)
+  (setq org-roam-graph-viewer 'browse-url)
+  (setq org-roam-graph-extra-config '(("layout" . "fdp")))
+
   (setq create-lockfiles nil)
   (editorconfig-mode 1)
   (setq python-shell-interpreter "/usr/bin/python3")
