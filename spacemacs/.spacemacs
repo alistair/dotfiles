@@ -557,14 +557,6 @@ before packages are loaded."
     )
 ;;    (add-to-list 'org-modules 'org-protocol))
 
-;;  (setq org-refile-targets '((org-agenda-files . (:maxlevel . 6))))
-  (setq deft-extensions '("txt" "tex" "org"))
-  (setq deft-directory "~/Dropbox/work-share")
-  (setq deft-recursive t)
-  (setq org-ref-default-bibliography '("~/Dropbox/work-share/references.bib")
-    org-ref-pdf-directory "~/Dropbox/work-share/Books/"
-    org-ref-bibliography-notes "~/Dropbox/work-share/work.org")
-
   (setq org-capture-templates
     (quote (("t" "todo" entry (file "~/Dropbox/work-share/refile.org")
               "* TODO %?\n%U\n%a\n")
@@ -575,14 +567,68 @@ before packages are loaded."
              ("L" "Protocol Link" entry (file+headline "~/Dropbox/work-share/refile.org" "Protocol")
                "* %? [[%:link][%:description]] \nCaptured On: %U")
              )))
-  ;; Remove empty LOGBOOK drawers on clock out
-;;  (defun bh/remove-empty-drawer-on-clock-out ()
-;;    (interactive)
-;;    (save-excursion
-;;      (beginning-of-line 0)
-;;      (org-remove-empty-drawer-at "LOGBOOK" (point))))
-;;
-;;  (add-hook 'org-clock-out-hook 'bh/remove-empty-drawer-on-clock-out 'append)
+  (defun vulpea-project-p ()
+    "Return non-nil if current buffer has any todo entry.
+     TODO entries marked as done are ignored, meaning the this
+     function returns nil if current buffer contains only completed
+     tasks."
+    (org-element-map
+      (org-element-parse-buffer 'headline)
+      'headline
+      (lambda (h)
+        (eq (org-element-property :todo-type h)
+          'todo))
+      nil 'first-match))
+
+    (add-hook 'find-file-hook #'vulpea-project-update-tag)
+    (add-hook 'before-save-hook #'vulpea-project-update-tag)
+
+  (defun vulpea-project-update-tag ()
+        "Update PROJECT tag in the current buffer."
+        (when (and (not (active-minibuffer-window))
+                  (vulpea-buffer-p))
+          (save-excursion
+            (goto-char (point-min))
+            (let* ((tags (vulpea-buffer-tags-get))
+                  (original-tags tags))
+              (if (vulpea-project-p)
+                  (setq tags (cons "project" tags))
+                (setq tags (remove "project" tags)))
+
+              ;; cleanup duplicates
+              (setq tags (seq-uniq tags))
+
+              ;; update tags if changed
+              (when (or (seq-difference tags original-tags)
+                        (seq-difference original-tags tags))
+                (apply #'vulpea-buffer-tags-set tags))))))
+
+  (defun vulpea-buffer-p ()
+    "Return non-nil if the currently visited buffer is a note."
+    (and buffer-file-name
+        (string-prefix-p
+          (expand-file-name (file-name-as-directory org-roam-directory))
+          (file-name-directory buffer-file-name))))
+
+  (defun vulpea-project-files ()
+    "Return a list of note files containing 'project' tag." ;
+    (seq-uniq
+      (seq-map
+        #'car
+        (org-roam-db-query
+          [:select [nodes:file]
+            :from tags
+            :left-join nodes
+            :on (= tags:node-id nodes:id)
+            :where (like tag (quote "%\"project\"%"))]))))
+  (setq org-agenda-files (vulpea-project-files))
+
+  (defun vulpea-agenda-files-update (&rest _)
+    "Update the value of `org-agenda-files'."
+    (setq org-agenda-files (vulpea-project-files)))
+
+  (advice-add 'org-agenda :before #'vulpea-agenda-files-update)
+  (advice-add 'org-todo-list :before #'vulpea-agenda-files-update)
 )
 
 
@@ -606,7 +652,7 @@ This function is called at the very end of Spacemacs initialization."
  '(org-directory "~/org-roam")
  '(org-journal-file-type 'weekly t)
   '(package-selected-packages
-     '(org-roam emacsql-sqlite3 emacsql yapfify stickyfunc-enhance pytest pyenv-mode py-isort pippel pipenv pyvenv pip-requirements lsp-python-ms live-py-mode importmagic epc ctable concurrent deferred helm-pydoc helm-cscope xcscope lsp-treemacs bui lsp-mode cython-mode counsel swiper ivy company-anaconda blacken anaconda-mode pythonic deft ts vimrc-mode helm-gtags ggtags dactyl-mode counsel-gtags solarized-theme org-category-capture alert log4e gntp magit-popup skewer-mode simple-httpd hierarchy json-snatcher json-reformat multiple-cursors js2-mode htmlize gitignore-mode fringe-helper git-gutter+ git-gutter flyspell-correct flycheck magit transient lv git-commit with-editor csharp-mode dash-functional tern pos-tip company markdown-mode rust-mode yasnippet auto-complete evil-mc yasnippet-snippets yaml-mode xterm-color ws-butler writeroom-mode winum which-key web-mode web-beautify volatile-highlights vmd-mode vi-tilde-fringe uuidgen use-package unfill treemacs-projectile treemacs-evil toml-mode toc-org tagedit symon string-inflection sql-indent spotify spaceline-all-the-icons smeargle slim-mode shell-pop seeing-is-believing scss-mode sass-mode rvm ruby-tools ruby-test-mode ruby-refactor ruby-hash-syntax rubocop rspec-mode robe rjsx-mode restart-emacs rbenv rake rainbow-delimiters racer pug-mode prettier-js popwin persp-mode password-generator paradox overseer orgit org-projectile org-present org-pomodoro org-mime org-download org-bullets org-brain open-junk-file omnisharp nameless mwim multi-term move-text mmm-mode minitest markdown-toc magit-svn magit-gitflow macrostep lorem-ipsum livid-mode linum-relative link-hint less-css-mode json-navigator json-mode js2-refactor js-doc intero indent-guide impatient-mode hungry-delete hlint-refactor hl-todo hindent highlight-parentheses highlight-numbers highlight-indentation helm-xref helm-themes helm-swoop helm-spotify-plus helm-rtags helm-purpose helm-projectile helm-org-rifle helm-mode-manager helm-make helm-hoogle helm-gitignore helm-git-grep helm-flx helm-descbinds helm-css-scss helm-company helm-c-yasnippet helm-ag haskell-snippets google-translate google-c-style golden-ratio gnuplot gitignore-templates gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe git-gutter-fringe+ gh-md fuzzy font-lock+ flyspell-correct-helm flycheck-rust flycheck-rtags flycheck-pos-tip flycheck-haskell flx-ido fill-column-indicator fancy-battery eyebrowse expand-region evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-org evil-numbers evil-nerd-commenter evil-matchit evil-magit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-goggles evil-exchange evil-escape evil-ediff evil-cleverparens evil-args evil-anzu eval-sexp-fu eshell-z eshell-prompt-extras esh-help emmet-mode elisp-slime-nav editorconfig dumb-jump dotenv-mode doom-modeline disaster diminish diff-hl define-word dap-mode counsel-projectile company-web company-tern company-statistics company-rtags company-quickhelp company-cabal company-c-headers column-enforce-mode cmm-mode clean-aindent-mode clang-format chruby centered-cursor-mode cargo bundler browse-at-remote auto-yasnippet auto-highlight-symbol auto-dictionary auto-compile aggressive-indent ace-link ace-jump-helm-line ac-ispell)))
+     '(org-roam-ui org-roam emacsql-sqlite3 emacsql yapfify stickyfunc-enhance pytest pyenv-mode py-isort pippel pipenv pyvenv pip-requirements lsp-python-ms live-py-mode importmagic epc ctable concurrent deferred helm-pydoc helm-cscope xcscope lsp-treemacs bui lsp-mode cython-mode counsel swiper ivy company-anaconda blacken anaconda-mode pythonic deft ts vimrc-mode helm-gtags ggtags dactyl-mode counsel-gtags solarized-theme org-category-capture alert log4e gntp magit-popup skewer-mode simple-httpd hierarchy json-snatcher json-reformat multiple-cursors js2-mode htmlize gitignore-mode fringe-helper git-gutter+ git-gutter flyspell-correct flycheck magit transient lv git-commit with-editor csharp-mode dash-functional tern pos-tip company markdown-mode rust-mode yasnippet auto-complete evil-mc yasnippet-snippets yaml-mode xterm-color ws-butler writeroom-mode winum which-key web-mode web-beautify volatile-highlights vmd-mode vi-tilde-fringe uuidgen use-package unfill treemacs-projectile treemacs-evil toml-mode toc-org tagedit symon string-inflection sql-indent spotify spaceline-all-the-icons smeargle slim-mode shell-pop seeing-is-believing scss-mode sass-mode rvm ruby-tools ruby-test-mode ruby-refactor ruby-hash-syntax rubocop rspec-mode robe rjsx-mode restart-emacs rbenv rake rainbow-delimiters racer pug-mode prettier-js popwin persp-mode password-generator paradox overseer orgit org-projectile org-present org-pomodoro org-mime org-download org-bullets org-brain open-junk-file omnisharp nameless mwim multi-term move-text mmm-mode minitest markdown-toc magit-svn magit-gitflow macrostep lorem-ipsum livid-mode linum-relative link-hint less-css-mode json-navigator json-mode js2-refactor js-doc intero indent-guide impatient-mode hungry-delete hlint-refactor hl-todo hindent highlight-parentheses highlight-numbers highlight-indentation helm-xref helm-themes helm-swoop helm-spotify-plus helm-rtags helm-purpose helm-projectile helm-org-rifle helm-mode-manager helm-make helm-hoogle helm-gitignore helm-git-grep helm-flx helm-descbinds helm-css-scss helm-company helm-c-yasnippet helm-ag haskell-snippets google-translate google-c-style golden-ratio gnuplot gitignore-templates gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe git-gutter-fringe+ gh-md fuzzy font-lock+ flyspell-correct-helm flycheck-rust flycheck-rtags flycheck-pos-tip flycheck-haskell flx-ido fill-column-indicator fancy-battery eyebrowse expand-region evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-org evil-numbers evil-nerd-commenter evil-matchit evil-magit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-goggles evil-exchange evil-escape evil-ediff evil-cleverparens evil-args evil-anzu eval-sexp-fu eshell-z eshell-prompt-extras esh-help emmet-mode elisp-slime-nav editorconfig dumb-jump dotenv-mode doom-modeline disaster diminish diff-hl define-word dap-mode counsel-projectile company-web company-tern company-statistics company-rtags company-quickhelp company-cabal company-c-headers column-enforce-mode cmm-mode clean-aindent-mode clang-format chruby centered-cursor-mode cargo bundler browse-at-remote auto-yasnippet auto-highlight-symbol auto-dictionary auto-compile aggressive-indent ace-link ace-jump-helm-line ac-ispell)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
