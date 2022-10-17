@@ -195,7 +195,7 @@ filetype indent on        " Use filetype-specific indenting when available
 filetype plugin on        " Load filetype plugins
 
 set background=dark
-colorscheme solarized
+"colorscheme solarized
 
 let g:OmniSharp_server_type = 'roslyn'
 
@@ -302,13 +302,13 @@ let g:syntastic_haskell_hdevtools_args = '-g-Wall'
 nnoremap <silent> <leader>hh :Hoogle<CR>
 
 " Hoogle and prompt for input
-nnoremap <leader>hH :Hoogle 
+nnoremap <leader>hH :Hoogle
 
 " Hoogle for detailed documentation (e.g. "Functor")
 nnoremap <silent> <leader>hi :HoogleInfo<CR>
 
 " Hoogle for detailed documentation and prompt for input
-nnoremap <leader>hI :HoogleInfo 
+nnoremap <leader>hI :HoogleInfo
 
 " Hoogle, close the Hoogle window
 nnoremap <silent> <leader>hz :HoogleClose<CR>
