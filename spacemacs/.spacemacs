@@ -47,7 +47,6 @@ This function should only modify configuration layer settings."
      (auto-completion
       :variables
       auto-completion-enable-help-tooltip t
-      auto-completion-return-key-behavior 'complete
       auto-completion-tab-key-behavior 'complete)
      ;; better-defaults
      emacs-lisp
@@ -58,12 +57,6 @@ This function should only modify configuration layer settings."
 
      (org :variables org-enable-github-support t
        org-enable-roam-support t
-       org-enable-org-journal-support t
-       org-journal-dir "~/Dropbox/work-share/journal/"
-       org-journal-file-type 'weekly
-       org-journal-file-format "%Y-%m-%d"
-       org-journal-date-format "%A, %B %d %Y"
-       org-journal-time-prefix "* "
        org-roam-directory "~/org-roam/"
        org-enable-roam-ui t
        )
@@ -78,7 +71,6 @@ This function should only modify configuration layer settings."
      ;;haskell
      ;;ruby
      yaml
-     sql
      react
      csharp
      ;;c-c++
@@ -99,12 +91,10 @@ This function should only modify configuration layer settings."
 ;;      :fetcher github
 ;;      :files ("asana.el")))
     dotspacemacs-additional-packages '(
-                                        (asana :location (recipe
-                                                                 :fetcher github
-                                                           :repo "lmartel/emacs-asana"))
                                         (vulpea-buffer :location (recipe
                                                             :fetcher github
-                                                            :repo "d12frosted/vulpea"))
+                                                                   :repo "d12frosted/vulpea"))
+                                        (gptel)
                                         )
 
    ;; A list of packages that cannot be updated.
@@ -610,6 +600,11 @@ configuration.
 Put your configuration code here, except for variables that should be set
 before packages are loaded."
 
+  (if (file-readable-p "~/org-roam/secrets.el") (load-file "~/org-roam/secrets.el"))
+
+  (setq undo-tree-auto-save-history nil)
+  (require 'gptel)
+
   (setq ob-mermaid-cli-path "/home/alistair/node_modules/.bin/mmdc")
   (setq org-roam-v2-ack t)
   (setq org-roam-graph-viewer 'browse-url)
@@ -628,17 +623,16 @@ before packages are loaded."
 
   (with-eval-after-load 'org
     (require 'org-roam-protocol)
-    )
-;;    (add-to-list 'org-modules 'org-protocol))
+ )
 
   (setq org-capture-templates
-    (quote (("t" "todo" entry (file "~/Dropbox/work-share/refile.org")
+    (quote (("t" "todo" entry (file "~/org-roam/refile.org")
               "* TODO %?\n%U\n%a\n")
-             ("j" "Journal" entry (file+olp+datetree "~/Dropbox/work-share/journal.org")
+             ("j" "Journal" entry (file+olp+datetree "~/org-roam/journal.org")
                "* %?\n%U\n")
-             ("p" "Protocol" entry (file+headline "~/Dropbox/work-share/refile.org" "Protocol")
+             ("p" "Protocol" entry (file+headline "~/org-roam/refile.org" "Protocol")
                "* %^{Title}\nSource: %u, %c\n #+BEGIN_QUOTE\n%i\n#+END_QUOTE\n\n\n[[%:link][%:description]]\n%?")
-             ("L" "Protocol Link" entry (file+headline "~/Dropbox/work-share/refile.org" "Protocol")
+             ("L" "Protocol Link" entry (file+headline "~/org-roam/refile.org" "Protocol")
                "* %? [[%:link][%:description]] \nCaptured On: %U")
              )))
 
@@ -708,7 +702,6 @@ before packages are loaded."
   (advice-add 'org-todo-list :before #'vulpea-agenda-files-update)
 )
 
-
 ;; Do not write anything past this comment. This is where Emacs will
 ;; auto-generate custom variable definitions.
 (defun dotspacemacs/emacs-custom-settings ()
@@ -721,14 +714,12 @@ This function is called at the very end of Spacemacs initialization."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(asana-my-user-task-list-gid "1201853911691476" t)
- '(asana-selected-workspace-gid "1201853911689823" t)
- '(asana-selected-workspace-name "IT" t)
  '(evil-want-Y-yank-to-eol nil)
+ '(highlight-parentheses-colors '("#2aa198" "#b58900" "#268bd2" "#6c71c4" "#859900"))
  '(org-directory "~/org-roam")
  '(org-journal-file-type 'weekly t)
   '(package-selected-packages
-     '(websocket code-cells lsp-docker lsp-pyright nose load-env-vars poetry pydoc pylookup sphinx-doc vulpea-buffer vulpea org-roam-ui org-roam emacsql-sqlite3 emacsql yapfify stickyfunc-enhance pytest pyenv-mode py-isort pippel pipenv pyvenv pip-requirements lsp-python-ms live-py-mode importmagic epc ctable concurrent deferred helm-pydoc helm-cscope xcscope lsp-treemacs bui lsp-mode cython-mode counsel swiper ivy company-anaconda blacken anaconda-mode pythonic deft ts vimrc-mode helm-gtags ggtags dactyl-mode counsel-gtags solarized-theme org-category-capture alert log4e gntp magit-popup skewer-mode simple-httpd hierarchy json-snatcher json-reformat multiple-cursors js2-mode htmlize gitignore-mode fringe-helper git-gutter+ git-gutter flyspell-correct flycheck magit transient lv git-commit with-editor csharp-mode dash-functional tern pos-tip company markdown-mode rust-mode yasnippet auto-complete evil-mc yasnippet-snippets yaml-mode xterm-color ws-butler writeroom-mode winum which-key web-mode web-beautify volatile-highlights vmd-mode vi-tilde-fringe uuidgen use-package unfill treemacs-projectile treemacs-evil toml-mode toc-org tagedit symon string-inflection sql-indent spotify spaceline-all-the-icons smeargle slim-mode shell-pop seeing-is-believing scss-mode sass-mode rvm ruby-tools ruby-test-mode ruby-refactor ruby-hash-syntax rubocop rspec-mode robe rjsx-mode restart-emacs rbenv rake rainbow-delimiters racer pug-mode prettier-js popwin persp-mode password-generator paradox overseer orgit org-projectile org-present org-pomodoro org-mime org-download org-bullets org-brain open-junk-file omnisharp nameless mwim multi-term move-text mmm-mode minitest markdown-toc magit-svn magit-gitflow macrostep lorem-ipsum livid-mode linum-relative link-hint less-css-mode json-navigator json-mode js2-refactor js-doc intero indent-guide impatient-mode hungry-delete hlint-refactor hl-todo hindent highlight-parentheses highlight-numbers highlight-indentation helm-xref helm-themes helm-swoop helm-spotify-plus helm-rtags helm-purpose helm-projectile helm-org-rifle helm-mode-manager helm-make helm-hoogle helm-gitignore helm-git-grep helm-flx helm-descbinds helm-css-scss helm-company helm-c-yasnippet helm-ag haskell-snippets google-translate google-c-style golden-ratio gnuplot gitignore-templates gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe git-gutter-fringe+ gh-md fuzzy font-lock+ flyspell-correct-helm flycheck-rust flycheck-rtags flycheck-pos-tip flycheck-haskell flx-ido fill-column-indicator fancy-battery eyebrowse expand-region evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-org evil-numbers evil-nerd-commenter evil-matchit evil-magit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-goggles evil-exchange evil-escape evil-ediff evil-cleverparens evil-args evil-anzu eval-sexp-fu eshell-z eshell-prompt-extras esh-help emmet-mode elisp-slime-nav editorconfig dumb-jump dotenv-mode doom-modeline disaster diminish diff-hl define-word dap-mode counsel-projectile company-web company-tern company-statistics company-rtags company-quickhelp company-cabal company-c-headers column-enforce-mode cmm-mode clean-aindent-mode clang-format chruby centered-cursor-mode cargo bundler browse-at-remote auto-yasnippet auto-highlight-symbol auto-dictionary auto-compile aggressive-indent ace-link ace-jump-helm-line ac-ispell)))
+     '(gptel websocket code-cells lsp-docker lsp-pyright nose load-env-vars poetry pydoc pylookup sphinx-doc vulpea-buffer vulpea org-roam-ui org-roam emacsql-sqlite3 emacsql yapfify stickyfunc-enhance pytest pyenv-mode py-isort pippel pipenv pyvenv pip-requirements lsp-python-ms live-py-mode importmagic epc ctable concurrent deferred helm-pydoc helm-cscope xcscope lsp-treemacs bui lsp-mode cython-mode counsel swiper ivy company-anaconda blacken anaconda-mode pythonic deft ts vimrc-mode helm-gtags ggtags dactyl-mode counsel-gtags solarized-theme org-category-capture alert log4e gntp magit-popup skewer-mode simple-httpd hierarchy json-snatcher json-reformat multiple-cursors js2-mode htmlize gitignore-mode fringe-helper git-gutter+ git-gutter flyspell-correct flycheck magit transient lv git-commit with-editor csharp-mode dash-functional tern pos-tip company markdown-mode rust-mode yasnippet auto-complete evil-mc yasnippet-snippets yaml-mode xterm-color ws-butler writeroom-mode winum which-key web-mode web-beautify volatile-highlights vmd-mode vi-tilde-fringe uuidgen use-package unfill treemacs-projectile treemacs-evil toml-mode toc-org tagedit symon string-inflection sql-indent spotify spaceline-all-the-icons smeargle slim-mode shell-pop seeing-is-believing scss-mode sass-mode rvm ruby-tools ruby-test-mode ruby-refactor ruby-hash-syntax rubocop rspec-mode robe rjsx-mode restart-emacs rbenv rake rainbow-delimiters racer pug-mode prettier-js popwin persp-mode password-generator paradox overseer orgit org-projectile org-present org-pomodoro org-mime org-download org-bullets org-brain open-junk-file omnisharp nameless mwim multi-term move-text mmm-mode minitest markdown-toc magit-svn magit-gitflow macrostep lorem-ipsum livid-mode linum-relative link-hint less-css-mode json-navigator json-mode js2-refactor js-doc intero indent-guide impatient-mode hungry-delete hlint-refactor hl-todo hindent highlight-parentheses highlight-numbers highlight-indentation helm-xref helm-themes helm-swoop helm-spotify-plus helm-rtags helm-purpose helm-projectile helm-org-rifle helm-mode-manager helm-make helm-hoogle helm-gitignore helm-git-grep helm-flx helm-descbinds helm-css-scss helm-company helm-c-yasnippet helm-ag haskell-snippets google-translate google-c-style golden-ratio gnuplot gitignore-templates gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe git-gutter-fringe+ gh-md fuzzy font-lock+ flyspell-correct-helm flycheck-rust flycheck-rtags flycheck-pos-tip flycheck-haskell flx-ido fill-column-indicator fancy-battery eyebrowse expand-region evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-org evil-numbers evil-nerd-commenter evil-matchit evil-magit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-goggles evil-exchange evil-escape evil-ediff evil-cleverparens evil-args evil-anzu eval-sexp-fu eshell-z eshell-prompt-extras esh-help emmet-mode elisp-slime-nav editorconfig dumb-jump dotenv-mode doom-modeline disaster diminish diff-hl define-word dap-mode counsel-projectile company-web company-tern company-statistics company-rtags company-quickhelp company-cabal company-c-headers column-enforce-mode cmm-mode clean-aindent-mode clang-format chruby centered-cursor-mode cargo bundler browse-at-remote auto-yasnippet auto-highlight-symbol auto-dictionary auto-compile aggressive-indent ace-link ace-jump-helm-line ac-ispell)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
