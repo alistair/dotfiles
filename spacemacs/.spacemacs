@@ -27,58 +27,54 @@ This function should only modify configuration layer settings."
    dotspacemacs-ask-for-lazy-installation t
 
    ;; List of additional paths where to look for configuration layers.
-   ;; Paths must have a trailing slash (i.e. `~/.mycontribs/')
+   ;; Paths must have a trailing slash (i.e. "~/.mycontribs/")
    dotspacemacs-configuration-layer-path '()
 
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
-    '(python
+    '(
+       python
        haskell
        agda
        vimscript
-     ;; ----------------------------------------------------------------
-     ;; Example of useful layers you may want to use right away.
-     ;; Uncomment some layer names and press `SPC f e R' (Vim style) or
-     ;; `M-m f e R' (Emacs style) to install them.
-       ;; ----------------------------------------------------------------
-     bibtex
-     mermaid
-     helm
-     (auto-completion
-      :variables
-      auto-completion-enable-help-tooltip t
-      auto-completion-tab-key-behavior 'complete)
-     ;; better-defaults
-     emacs-lisp
-     git
-     (markdown :variables markdown-live-preview-engine 'vmd)
-     multiple-cursors
-     treemacs
+       bibtex
+       mermaid
+       helm
+       (auto-completion
+         :variables
+         auto-completion-enable-help-tooltip t
+         auto-completion-tab-key-behavior 'complete)
+       emacs-lisp
+       git
+       (markdown :variables markdown-live-preview-engine 'vmd)
+       multiple-cursors
+       treemacs
+       lsp
 
-     (org :variables org-enable-github-support t
-       org-enable-roam-support t
-       org-roam-directory "~/org-roam/"
-       org-enable-roam-ui t
+       (org :variables org-enable-github-support t
+         org-enable-roam-support t
+         org-roam-directory "~/org-roam/"
+         org-enable-roam-ui t
+         )
+       (shell :variables
+         shell-default-height 30
+         shell-default-position 'bottom)
+       spell-checking
+       syntax-checking
+       version-control
+
+       ;;haskell
+       ;;ruby
+       yaml
+       react
+       csharp
+       rust
        )
-     ;;org-roam
-     (shell :variables
-            shell-default-height 30
-            shell-default-position 'bottom)
-     spell-checking
-     syntax-checking
-     version-control
-
-     ;;haskell
-     ;;ruby
-     yaml
-     react
-     csharp
-     ;;c-c++
-      rust
-     )
 
    ;; List of additional packages that will be installed without being
-   ;; wrapped in a layer. If you need some configuration for these
+   ;; wrapped in a layer(generally the packages are installed only and should still be
+   ;; loaded using load/require/use-package in the user-config section below in
+   ;; this file). If you need some configuration for these
    ;; packages, then consider creating a layer. You can also put the
    ;; configuration in `dotspacemacs/user-config'.
    ;; To use a local version of a package, use the `:location' property:
@@ -95,6 +91,7 @@ This function should only modify configuration layer settings."
                                                             :fetcher github
                                                                    :repo "d12frosted/vulpea"))
                                         (gptel)
+                                        (sqlite3)
                                         )
 
    ;; A list of packages that cannot be updated.
@@ -290,7 +287,7 @@ It should only modify the values of Spacemacs settings."
    ;; a non-negative integer (pixel size), or a floating-point (point size).
    ;; Point size is recommended, because it's device independent. (default 10.0)
    dotspacemacs-default-font '("Source Code Pro"
-                               :size 10.0
+                               :size 15.0
                                :weight normal
                                :width normal)
 
@@ -718,8 +715,9 @@ This function is called at the very end of Spacemacs initialization."
  '(highlight-parentheses-colors '("#2aa198" "#b58900" "#268bd2" "#6c71c4" "#859900"))
  '(org-directory "~/org-roam")
  '(org-journal-file-type 'weekly t)
-  '(package-selected-packages
-     '(gptel websocket code-cells lsp-docker lsp-pyright nose load-env-vars poetry pydoc pylookup sphinx-doc vulpea-buffer vulpea org-roam-ui org-roam emacsql-sqlite3 emacsql yapfify stickyfunc-enhance pytest pyenv-mode py-isort pippel pipenv pyvenv pip-requirements lsp-python-ms live-py-mode importmagic epc ctable concurrent deferred helm-pydoc helm-cscope xcscope lsp-treemacs bui lsp-mode cython-mode counsel swiper ivy company-anaconda blacken anaconda-mode pythonic deft ts vimrc-mode helm-gtags ggtags dactyl-mode counsel-gtags solarized-theme org-category-capture alert log4e gntp magit-popup skewer-mode simple-httpd hierarchy json-snatcher json-reformat multiple-cursors js2-mode htmlize gitignore-mode fringe-helper git-gutter+ git-gutter flyspell-correct flycheck magit transient lv git-commit with-editor csharp-mode dash-functional tern pos-tip company markdown-mode rust-mode yasnippet auto-complete evil-mc yasnippet-snippets yaml-mode xterm-color ws-butler writeroom-mode winum which-key web-mode web-beautify volatile-highlights vmd-mode vi-tilde-fringe uuidgen use-package unfill treemacs-projectile treemacs-evil toml-mode toc-org tagedit symon string-inflection sql-indent spotify spaceline-all-the-icons smeargle slim-mode shell-pop seeing-is-believing scss-mode sass-mode rvm ruby-tools ruby-test-mode ruby-refactor ruby-hash-syntax rubocop rspec-mode robe rjsx-mode restart-emacs rbenv rake rainbow-delimiters racer pug-mode prettier-js popwin persp-mode password-generator paradox overseer orgit org-projectile org-present org-pomodoro org-mime org-download org-bullets org-brain open-junk-file omnisharp nameless mwim multi-term move-text mmm-mode minitest markdown-toc magit-svn magit-gitflow macrostep lorem-ipsum livid-mode linum-relative link-hint less-css-mode json-navigator json-mode js2-refactor js-doc intero indent-guide impatient-mode hungry-delete hlint-refactor hl-todo hindent highlight-parentheses highlight-numbers highlight-indentation helm-xref helm-themes helm-swoop helm-spotify-plus helm-rtags helm-purpose helm-projectile helm-org-rifle helm-mode-manager helm-make helm-hoogle helm-gitignore helm-git-grep helm-flx helm-descbinds helm-css-scss helm-company helm-c-yasnippet helm-ag haskell-snippets google-translate google-c-style golden-ratio gnuplot gitignore-templates gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe git-gutter-fringe+ gh-md fuzzy font-lock+ flyspell-correct-helm flycheck-rust flycheck-rtags flycheck-pos-tip flycheck-haskell flx-ido fill-column-indicator fancy-battery eyebrowse expand-region evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-org evil-numbers evil-nerd-commenter evil-matchit evil-magit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-goggles evil-exchange evil-escape evil-ediff evil-cleverparens evil-args evil-anzu eval-sexp-fu eshell-z eshell-prompt-extras esh-help emmet-mode elisp-slime-nav editorconfig dumb-jump dotenv-mode doom-modeline disaster diminish diff-hl define-word dap-mode counsel-projectile company-web company-tern company-statistics company-rtags company-quickhelp company-cabal company-c-headers column-enforce-mode cmm-mode clean-aindent-mode clang-format chruby centered-cursor-mode cargo bundler browse-at-remote auto-yasnippet auto-highlight-symbol auto-dictionary auto-compile aggressive-indent ace-link ace-jump-helm-line ac-ispell)))
+ '(package-selected-packages
+    '(sqlite3 gptel websocket code-cells lsp-docker lsp-pyright nose load-env-vars poetry pydoc pylookup sphinx-doc vulpea-buffer vulpea org-roam-ui org-roam emacsql-sqlite3 emacsql yapfify stickyfunc-enhance pytest pyenv-mode py-isort pippel pipenv pyvenv pip-requirements lsp-python-ms live-py-mode importmagic epc ctable concurrent deferred helm-pydoc helm-cscope xcscope lsp-treemacs bui lsp-mode cython-mode counsel swiper ivy company-anaconda blacken anaconda-mode pythonic deft ts vimrc-mode helm-gtags ggtags dactyl-mode counsel-gtags solarized-theme org-category-capture alert log4e gntp magit-popup skewer-mode simple-httpd hierarchy json-snatcher json-reformat multiple-cursors js2-mode htmlize gitignore-mode fringe-helper git-gutter+ git-gutter flyspell-correct flycheck magit transient lv git-commit with-editor csharp-mode dash-functional tern pos-tip company markdown-mode rust-mode yasnippet auto-complete evil-mc yasnippet-snippets yaml-mode xterm-color ws-butler writeroom-mode winum which-key web-mode web-beautify volatile-highlights vmd-mode vi-tilde-fringe uuidgen use-package unfill treemacs-projectile treemacs-evil toml-mode toc-org tagedit symon string-inflection sql-indent spotify spaceline-all-the-icons smeargle slim-mode shell-pop seeing-is-believing scss-mode sass-mode rvm ruby-tools ruby-test-mode ruby-refactor ruby-hash-syntax rubocop rspec-mode robe rjsx-mode restart-emacs rbenv rake rainbow-delimiters racer pug-mode prettier-js popwin persp-mode password-generator paradox overseer orgit org-projectile org-present org-pomodoro org-mime org-download org-bullets org-brain open-junk-file omnisharp nameless mwim multi-term move-text mmm-mode minitest markdown-toc magit-svn magit-gitflow macrostep lorem-ipsum livid-mode linum-relative link-hint less-css-mode json-navigator json-mode js2-refactor js-doc intero indent-guide impatient-mode hungry-delete hlint-refactor hl-todo hindent highlight-parentheses highlight-numbers highlight-indentation helm-xref helm-themes helm-swoop helm-spotify-plus helm-rtags helm-purpose helm-projectile helm-org-rifle helm-mode-manager helm-make helm-hoogle helm-gitignore helm-git-grep helm-flx helm-descbinds helm-css-scss helm-company helm-c-yasnippet helm-ag haskell-snippets google-translate google-c-style golden-ratio gnuplot gitignore-templates gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe git-gutter-fringe+ gh-md fuzzy font-lock+ flyspell-correct-helm flycheck-rust flycheck-rtags flycheck-pos-tip flycheck-haskell flx-ido fill-column-indicator fancy-battery eyebrowse expand-region evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-org evil-numbers evil-nerd-commenter evil-matchit evil-magit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-goggles evil-exchange evil-escape evil-ediff evil-cleverparens evil-args evil-anzu eval-sexp-fu eshell-z eshell-prompt-extras esh-help emmet-mode elisp-slime-nav editorconfig dumb-jump dotenv-mode doom-modeline disaster diminish diff-hl define-word dap-mode counsel-projectile company-web company-tern company-statistics company-rtags company-quickhelp company-cabal company-c-headers column-enforce-mode cmm-mode clean-aindent-mode clang-format chruby centered-cursor-mode cargo bundler browse-at-remote auto-yasnippet auto-highlight-symbol auto-dictionary auto-compile aggressive-indent ace-link ace-jump-helm-line ac-ispell))
+ '(warning-suppress-types '((use-package) (use-package))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
